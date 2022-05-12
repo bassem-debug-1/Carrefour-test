@@ -5,11 +5,8 @@ node() {
     stage("Prepare Workspace") {
         cleanWs()
         env.WORKSPACE_LOCAL = bat(returnStdout: true, script: 'pwd').trim()
-        env.BUILD_TIME = bat (returnStdout: true, script: 'date +%d-%m-%Y').trim()
-
-
         echo "Workspace set to:" + env.WORKSPACE_LOCAL
-        echo "Build time:" + env.BUILD_TIME
+        echo "Build time:"
     }
     stage('Checkout Self') {
         git branch: 'main', credentialsId: '', url: repoURL
@@ -42,7 +39,7 @@ node() {
 				},
 				"labels":''' + labels + ''',
 				"description":"''' + description + '''",
-				"summary": "Automated Regression Execution @ ''' + env.BUILD_TIME + ' ' + environment + ''' " ,
+				"summary": "Automated Regression Execution @ '''  + environment + ''' " ,
 				"issuetype": {
 				"id": "''' + testExecutionFieldId + '''"
 				},
