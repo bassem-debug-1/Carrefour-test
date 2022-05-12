@@ -1,20 +1,20 @@
 node() {
 
-    def repoURL = 'https://github.com/gabrielstar/cucumber.git'
+    def repoURL = 'https://github.com/bassem-debug-1/Carrefour-test.git'
 
     stage("Prepare Workspace") {
         cleanWs()
-        env.WORKSPACE_LOCAL = sh(returnStdout: true, script: 'pwd').trim()
-        env.BUILD_TIME = sh(returnStdout: true, script: 'date +%F-%T').trim()
+        env.WORKSPACE_LOCAL = bat(returnStdout: true, script: 'pwd').trim()
+        env.BUILD_TIME = bat(returnStdout: true, script: 'date +%F-%T').trim()
         echo "Workspace set to:" + env.WORKSPACE_LOCAL
         echo "Build time:" + env.BUILD_TIME
     }
     stage('Checkout Self') {
-        git branch: 'xray_video', credentialsId: '', url: repoURL
+        git branch: 'main', credentialsId: '', url: repoURL
     }
     stage('Cucumber Tests') {
         withMaven(maven: 'maven35') {
-            sh """
+            bat """
 			cd ${env.WORKSPACE_LOCAL}
 			mvn clean test
 		"""
